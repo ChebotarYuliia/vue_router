@@ -5,6 +5,7 @@ import articles from '../../api/articles';
 const state = {
   data: [],
   rendered: false,
+  currentData: {},
 }
 
 // getters
@@ -20,6 +21,18 @@ const actions = {
       commit('setRenderedStatus');
     }
     )
+  },
+  getCurrentArticle({ commit }, id) {
+    let curData = {};
+    state.data.filter(article => {
+      if (article.id === id) {
+        for (let item in article) {
+          curData[item] = article[item]
+        }
+      }
+    },
+      commit('setCurrentData', curData),
+    )
   }
 }
 
@@ -30,6 +43,9 @@ const mutations = {
   },
   setRenderedStatus(state) {
     state.rendered = true;
+  },
+  setCurrentData(state, data) {
+    state.currentData = data;
   },
 }
 

@@ -6,22 +6,22 @@
     </header>
     <main>
       <Sidebar :articles="articles"/>
-      <Content/>
+      <div class="content">
+        <router-view></router-view>
+      </div>
     </main>
   </div>
 </template>
 
 <script>
 import Sidebar from "./components/Sidebar.vue";
-import Content from "./components/Content.vue";
 
 import { mapState } from "vuex";
 
 export default {
   name: "app",
   components: {
-    Sidebar,
-    Content
+    Sidebar
   },
   created() {
     this.$store.dispatch("articles/getArticles");
@@ -92,5 +92,12 @@ main {
   margin-left: auto;
   margin-right: auto;
   overflow: hidden;
+}
+
+.content {
+  flex: 1 1 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

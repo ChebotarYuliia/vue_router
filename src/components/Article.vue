@@ -7,17 +7,20 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "Article",
-  props: {
-    id: {
-      type: String,
-      required: true,
-      default: ""
-    }
+  props: ["id"],
+  computed: {
+    ...mapState({
+      article: state => state.articles.currentData
+    })
   },
-  computed: {},
-  methods: {}
+  watch: {
+    $route() {
+      this.$store.dispatch("articles/getCurrentArticle", this.id);
+    }
+  }
 };
 </script>
 
