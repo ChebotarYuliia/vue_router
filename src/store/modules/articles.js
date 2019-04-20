@@ -4,35 +4,40 @@ import articles from '../../api/articles';
 // initial state
 const state = {
   data: [],
-  rendered: false,
-  currentData: {},
+  currentId: 1
 }
 
 // getters
-const getters = {};
+const getters = {
+  getArticles(state) {
+    return state.data;
+  },
+  getCurrentArticle(state) {
+      let currentData = {};
+      state.data.filter(article => {
+        if (article.id === state.currentId) {
+          for (let item in article) {
+            currentData[item] = article[item]
+          }
+        }
+      })
+      return currentData;
+  }
+};
 
 // actions
 const actions = {
-  getArticles({
+  makeArticlesRequest({
     commit
   }) {
-    articles.articelsRequest().then(data => {
+    console.log('action with api')
+    return articles.articelsRequest().then(data => {
       commit('setArticlesData', data);
-      commit('setRenderedStatus');
     }
     )
   },
-  getCurrentArticle({ commit }, id) {
-    let curData = {};
-    state.data.filter(article => {
-      if (article.id === id) {
-        for (let item in article) {
-          curData[item] = article[item]
-        }
-      }
-    },
-      commit('setCurrentData', curData),
-    )
+  setCurrentId({commit}, id){
+    commit('setCurrentId', id);
   }
 }
 
@@ -41,12 +46,9 @@ const mutations = {
   setArticlesData(state, data) {
     state.data = data;
   },
-  setRenderedStatus(state) {
-    state.rendered = true;
-  },
-  setCurrentData(state, data) {
-    state.currentData = data;
-  },
+  setCurrentId(state, id){
+    state.currentId = id;
+  }
 }
 
 export default {

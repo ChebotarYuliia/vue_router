@@ -8,7 +8,7 @@ Vue.use(Router)
 
 Vue.config.productionTip = false;
 
-const router = new Router({
+export const router = new Router({
   routes: [
     {
       path: '/article/:id',

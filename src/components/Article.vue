@@ -7,18 +7,23 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "Article",
   props: ["id"],
   computed: {
-    ...mapState({
-      article: state => state.articles.currentData
+    ...mapGetters('articles',{
+      article: 'getCurrentArticle'
+    })
+  },
+  methods: {
+    ...mapActions('articles',{
+      setCurrentId: 'setCurrentId'
     })
   },
   watch: {
     $route() {
-      this.$store.dispatch("articles/getCurrentArticle", this.id);
+      this.setCurrentId(this.id);
     }
   }
 };

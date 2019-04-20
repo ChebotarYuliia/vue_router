@@ -16,7 +16,7 @@
 <script>
 import Sidebar from "./components/Sidebar.vue";
 
-import { mapState } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "app",
@@ -24,14 +24,18 @@ export default {
     Sidebar
   },
   created() {
-    this.$store.dispatch("articles/getArticles");
+   this.makeArticlesRequest();
   },
   computed: {
-    ...mapState({
-      articles: state => state.articles.data,
-      articlesResponse: state => state.articles.rendered
+    ...mapGetters('articles',{
+      articles: 'getArticles'
     })
-  }
+  },
+  methods: {
+    ...mapActions('articles',{
+      makeArticlesRequest: 'makeArticlesRequest',
+     }),
+  },
 };
 </script>
 
